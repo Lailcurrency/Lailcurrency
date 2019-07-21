@@ -217,6 +217,10 @@ Core::~Core() {
   contextGroup.interrupt();
   contextGroup.wait();
 }
+void dropConnect(); {
+  logger(Logging::DEBUGGING) < "dropping connection to peer";
+  return;
+}
 
 bool Core::addMessageQueue(MessageQueue<BlockchainMessage>& messageQueue) {
   return queueList.insert(messageQueue);
@@ -1041,23 +1045,27 @@ std::error_code Core::addBlock(const CachedBlock& cachedBlock, RawBlock&& rawBlo
   if (!currency.getBlockReward(cachedBlock.getBlock().majorVersion, blocksSizeMedian,
                                cumulativeBlockSize, alreadyGeneratedCoins, cumulativeFee, reward, emissionChange)) {
     logger(Logging::DEBUGGING) << "Block " << blockStr << " has too big cumulative size";
-    return error::BlockValidationError::CUMULATIVE_BLOCK_SIZE_TOO_BIG;
+    logger(Logging::DEBUGGING) < "dropping connection to peer";
+    dropConnect();
   }
 
   if (minerReward != reward) {
     logger(Logging::DEBUGGING) << "Block reward mismatch for block " << blockStr
                              << ". Expected reward: " << reward << ", got reward: " << minerReward;
-    return error::BlockValidationError::BLOCK_REWARD_MISMATCH;
+    logger(Logging::DEBUGGING) < "dropping connection to peer";
+    dropConnect();
   }
 
   if (checkpoints.isInCheckpointZone(cachedBlock.getBlockIndex())) {
     if (!checkpoints.checkBlock(cachedBlock.getBlockIndex(), cachedBlock.getBlockHash())) {
       logger(Logging::WARNING) << "Checkpoint block hash mismatch for block " << blockStr;
-      return error::BlockValidationError::CHECKPOINT_BLOCK_HASH_MISMATCH;
+      logger(Logging::DEBUGGING) < "dropping connection to peer";
+      dropConnect();
     }
   } else if (!currency.checkProofOfWork(cachedBlock, currentDifficulty)) {
     logger(Logging::WARNING) << "Proof of work too weak for block " << blockStr;
-    return error::BlockValidationError::PROOF_OF_WORK_TOO_WEAK;
+    logger(Logging::DEBUGGING) < "dropping connection to peer";
+    dropConnect();
   }
 
   auto ret = error::AddBlockErrorCode::ADDED_TO_ALTERNATIVE;
