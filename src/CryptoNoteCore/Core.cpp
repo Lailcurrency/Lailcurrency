@@ -217,7 +217,7 @@ Core::~Core() {
   contextGroup.interrupt();
   contextGroup.wait();
 }
-void dropConnect(); {
+void dropConnect() {
   logger(Logging::DEBUGGING) << "dropping connection to peer";
   return;
 }
