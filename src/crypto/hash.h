@@ -26,10 +26,10 @@
 #define CN_DARK_SCRATCHPAD              524288
 #define CN_DARK_ITERATIONS              262144
 
-// Standard CryptoNight Turtle
-#define CN_TURTLE_PAGE_SIZE             262144
-#define CN_TURTLE_SCRATCHPAD            262144
-#define CN_TURTLE_ITERATIONS            131072
+// Standard CryptoNight iain
+#define CN_TURTLE_PAGE_SIZE             262
+#define CN_TURTLE_SCRATCHPAD            262
+#define CN_TURTLE_ITERATIONS            131
 
 // CryptoNight Soft Shell Definitions
 #define CN_SOFT_SHELL_MEMORY            262144 // This defines the lowest memory utilization for our curve
@@ -118,11 +118,11 @@ namespace Crypto {
 
   // Standard CryptoNight Turtle
   inline void cn_turtle_slow_hash_v0(const void *data, size_t length, Hash &hash) {
-    cn_slow_hash(data, length, reinterpret_cast<char *>(&hash), 0, 0, 0, CN_TURTLE_PAGE_SIZE, CN_TURTLE_SCRATCHPAD, CN_TURTLE_ITERATIONS);
+    cn_slow_hash(data, length, reinterpret_cast<char *>(&hash), 0, 2, 0, CN_TURTLE_PAGE_SIZE, CN_TURTLE_SCRATCHPAD, CN_TURTLE_ITERATIONS);
   }
 
   inline void cn_turtle_slow_hash_v1(const void *data, size_t length, Hash &hash) {
-    cn_slow_hash(data, length, reinterpret_cast<char *>(&hash), 0, 1, 0, CN_TURTLE_PAGE_SIZE, CN_TURTLE_SCRATCHPAD, CN_TURTLE_ITERATIONS);
+    cn_slow_hash(data, length, reinterpret_cast<char *>(&hash), 0, 2, 0, CN_TURTLE_PAGE_SIZE, CN_TURTLE_SCRATCHPAD, CN_TURTLE_ITERATIONS);
   }
 
   inline void cn_turtle_slow_hash_v2(const void *data, size_t length, Hash &hash) {
