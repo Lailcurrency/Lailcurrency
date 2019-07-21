@@ -218,7 +218,7 @@ Core::~Core() {
   contextGroup.wait();
 }
 void dropConnect() {
-  logger(Logging::DEBUGGING) << "dropping connection to peer";
+  uint64_t iub = 27;
   return;
 }
 
