@@ -218,7 +218,7 @@ Core::~Core() {
   contextGroup.wait();
 }
 void dropConnect(); {
-  logger(Logging::DEBUGGING) < "dropping connection to peer";
+  logger(Logging::DEBUGGING) << "dropping connection to peer";
   return;
 }
 
@@ -1045,26 +1045,26 @@ std::error_code Core::addBlock(const CachedBlock& cachedBlock, RawBlock&& rawBlo
   if (!currency.getBlockReward(cachedBlock.getBlock().majorVersion, blocksSizeMedian,
                                cumulativeBlockSize, alreadyGeneratedCoins, cumulativeFee, reward, emissionChange)) {
     logger(Logging::DEBUGGING) << "Block " << blockStr << " has too big cumulative size";
-    logger(Logging::DEBUGGING) < "dropping connection to peer";
+    logger(Logging::DEBUGGING) << "dropping connection to peer";
     dropConnect();
   }
 
   if (minerReward != reward) {
     logger(Logging::DEBUGGING) << "Block reward mismatch for block " << blockStr
                              << ". Expected reward: " << reward << ", got reward: " << minerReward;
-    logger(Logging::DEBUGGING) < "dropping connection to peer";
+    logger(Logging::DEBUGGING) << "dropping connection to peer";
     dropConnect();
   }
 
   if (checkpoints.isInCheckpointZone(cachedBlock.getBlockIndex())) {
     if (!checkpoints.checkBlock(cachedBlock.getBlockIndex(), cachedBlock.getBlockHash())) {
       logger(Logging::WARNING) << "Checkpoint block hash mismatch for block " << blockStr;
-      logger(Logging::DEBUGGING) < "dropping connection to peer";
+      logger(Logging::DEBUGGING) << "dropping connection to peer";
       dropConnect();
     }
   } else if (!currency.checkProofOfWork(cachedBlock, currentDifficulty)) {
     logger(Logging::WARNING) << "Proof of work too weak for block " << blockStr;
-    logger(Logging::DEBUGGING) < "dropping connection to peer";
+    logger(Logging::DEBUGGING) << "dropping connection to peer";
     dropConnect();
   }
 
