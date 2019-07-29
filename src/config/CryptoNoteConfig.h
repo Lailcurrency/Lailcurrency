@@ -261,6 +261,7 @@ const static   boost::uuids::uuid CRYPTONOTE_NETWORK         =
 };
 
 const char* const SEED_NODES[] = {
-  "mine2.live:8080"
+  "yourseednodeip:8080" // you need to put a seed node here, i can host one if you want? 
+    // could you also explain why i was banned from the discord? im sorry if i offended you, i was just offering to help
 };
 } // CryptoNote
